@@ -10,7 +10,7 @@ module Pushofy
       host = 'gateway.push.apple.com'
       # path =  Dir.pwd + '/app/controllers/ProductionCertificate.pem'
       path = Dir.pwd + cert_name
-      ssl_client = Pushify::ConnectionToAppleServer::ssl_connect("gateway.push.apple.com", 2195, path)
+      ssl_client = Pushofy::ConnectionToAppleServer::ssl_connect("gateway.push.apple.com", 2195, path)
       ssl_client.connect
       device = [deviceTokenHex]
       device_token_binary = device.pack('H*')
@@ -24,7 +24,7 @@ module Pushofy
     def feedback
       host = 'feedback.sandbox.push.apple.com'
       path =  Dir.pwd + '/app/controllers/CertificateName.pem'
-      ssl_client = ConnectionToAppleServer::ssl_connect(host, 2196, path)
+      ssl_client = Pushofy::ConnectionToAppleServer::ssl_connect(host, 2196, path)
       ssl_client.connect
       apns_feedback = []
       while message = ssl_client.gets
