@@ -13,7 +13,7 @@ payload_hash['app'] = "dsfsdf"
 payload_hash['url'] = "dsfdfdsf"
 device_token_hex = "0C2C51D03FA6126CD25537F7CA68B32685B129629EE512DD8B0A4B61CB9B76B9"
 puts payload_hash
-Pushofy::ApplePush.new.push(payload_hash, device_token_hex,'/CertificateName.pem')
+Pushofy::ApplePush.new.push(payload_hash, device_token_hex,'/ProductionCertificate.pem')
 
 
 body = {}
