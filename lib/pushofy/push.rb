@@ -1,5 +1,9 @@
 require "pushofy/version"
-
+require 'rubygems'
+require 'socket'
+require_relative 'applepayload'
+require_relative 'ssl_helper'
+require 'openssl'
 module Pushofy
   #
   class Push
@@ -36,7 +40,7 @@ module Pushofy
       device_token_hex = device.registration_id
       puts "AAAAAA"
       puts payload_hash
-      ApplePush.new.push(payload_hash, device_token_hex)
+      ApplePush.new(payload_hash, device_token_hex).push
     end
 
     def send_to_android(device)
