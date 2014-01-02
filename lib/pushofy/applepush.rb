@@ -6,17 +6,17 @@ require 'openssl'
 #
 module Pushofy
   class ApplePush
-    def initialize(payload_hash, deviceTokenHex,cert_name)
+    def initialize(host,port,payload_hash, deviceTokenHex,cert_name,password)
       @payload_hash = payload_hash
       @deviceTokenHex = deviceTokenHex
       @cert_name = cert_name
+      @password = password
+      @host = host
+      @port = port
     end
     def push
-      host = 'gateway.push.apple.com'
-      # path =  Dir.pwd + '/app/controllers/ProductionCertificate.pem'
-      path = Dir.pwd + @cert_name
-      puts path
-      ssl_client = Pushofy::ConnectionToAppleServer::ssl_connect("gateway.push.apple.com", 2195, path)
+      path = @cert_name
+      ssl_client = Pushofy::ConnectionToAppleServer::ssl_connect(@host,@port, @password,@cert_name)
       ssl_client.connect
       device = [@deviceTokenHex]
       device_token_binary = device.pack('H*')

@@ -64,7 +64,7 @@ payload_hash['url'] = "dsfdfdsf"
 
 device_token_hex = "A078F1658F68521A278D0F5C41B9C4B0613E4A6DDC157FD8ED1567CDA5634DA4"
 # puts payload_hash
-Pushofy::ApplePush.new(payload_hash, device_token_hex,'/Users/apple/Documents/workspace/pushofy/DevCert.pem').push
+Pushofy::ApplePush.new('gateway.sandbox.push.apple.com',2195,payload_hash, device_token_hex,'/Users/apple/Documents/workspace/pushofy/DevCert.pem',"akk322").push
 
 # # Things needed
 # # 1. key
