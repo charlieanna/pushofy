@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["ankothari@gmail.com"]
   spec.summary       = "Sending push notifications to Android and iOS devices."
   spec.description   = "Send push notifications to Android and iOS devices by maping the device unique id with their device token or registration id."
-  spec.homepage      = "http://developer.idlecampus.com"
+  spec.homepage      = "https://github.com/charlieanna/pushofy"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
