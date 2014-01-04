@@ -5,14 +5,13 @@ require 'uri'
 #
 module Pushofy
   class AndroidPush
-    def initialize(body,api_key)
-      @api_key = api_key
+    def initialize(body,settings)
+      @settings = settings
       @body = body
     end
     def push
       uri = URI('https://android.googleapis.com/gcm/send')
-      auth_key = "key=#{@api_key}"
-      p auth_key
+      auth_key = "key=#{@settings[:api_key]}"
       headers = { 'Content-Type' => 'application/json',
                   'Authorization' => auth_key }
       http = Net::HTTP.new(uri.host, uri.port)

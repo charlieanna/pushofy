@@ -61,10 +61,15 @@ payload_hash['aps']['sound'] = 'default'
 payload_hash['aps']['badge'] = 1
 payload_hash['app'] = "dsfsdf"
 payload_hash['url'] = "dsfdfdsf"
-
-device_token_hex = "A078F1658F68521A278D0F5C41B9C4B0613E4A6DDC157FD8ED1567CDA5634DA4"
+payload_hash['device'] = "A078F1658F68521A278D0F5C41B9C4B0613E4A6DDC157FD8ED1567CDA5634DA4"
 # puts payload_hash
-Pushofy::ApplePush.new('gateway.sandbox.push.apple.com',2195,payload_hash, device_token_hex,'/Users/apple/Documents/workspace/pushofy/DevCert.pem',"akk322").push
+settings = {
+		cert: '/Users/apple/Documents/workspace/pushofy/DevCert.pem',
+		password: "akk322",
+		host: 'gateway.sandbox.push.apple.com',
+		port: 2195
+	}
+Pushofy::ApplePush.new(payload_hash, settings).push
 
 # # Things needed
 # # 1. key
@@ -81,6 +86,8 @@ android_payload = { 'message' =>  "You have a new #{app} from #{from}" }
 android_payload['app'] = app
 android_payload['url'] = url
 body['data'] = android_payload
-p body
-a = Pushofy::AndroidPush.new(body,"AIzaSyCoTPiIlC9OKuLh6i66focOp3zygWWOKXs")
+settings = {
+  api_key: "AIzaSyCoTPiIlC9OKuLh6i66focOp3zygWWOKXs"
+}
+a = Pushofy::AndroidPush.new(body,settings)
 a.push
