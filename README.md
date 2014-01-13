@@ -181,13 +181,13 @@ and for Android use this
 "http://idlecampus.com/api/users"
 
 with params
-  Map<String, String> params = new HashMap<String, String>();
-  String device_identifier = settings.getString("device_identifier", "");
-	params.put("device_identifier", device_identifier);
-	params.put("jabber_id", name + "@idlecampus.com");
-	params.put("email", email);
-	params.put("name", name);
-	params.put("password", password);
+      Map<String, String> params = new HashMap<String, String>();
+      String device_identifier = settings.getString("device_identifier", "");
+        params.put("device_identifier", device_identifier);
+        params.put("jabber_id", name + "@idlecampus.com");
+        params.put("email", email);
+        params.put("name", name);
+        params.put("password", password);
 
 
 
