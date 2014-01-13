@@ -124,6 +124,72 @@ Use the code below to send your device id to developer.idlecampus.com.
       }
 
 
+
+ but if you want to design an app to send a push to user then register users along with their device ids
+
+   NSString *cuser = [NSString stringWithCString:user.c_str()
+                                         encoding:[NSString defaultCStringEncoding]];
+    NSString *cemail =  [NSString stringWithCString:email.c_str()
+                                           encoding:[NSString defaultCStringEncoding]];
+    
+    NSString *urlString = [NSString stringWithFormat:@"http://idlecampus.com/users/%@",cuser];
+    NSURL *aUrl = [NSURL URLWithString:urlString];  //http://10.124.7.63:3000/users
+   
+    
+    
+    //The user has been registered here. and his details are now sent to the server for storage.
+    HTTPDelegate *dd = [[HTTPDelegate alloc] init];
+    
+    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *uuidString = [defaults objectForKey:@"device_identifier"];
+    cout << uuidString;
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aUrl
+                                                           cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                       timeoutInterval:60.0];
+    
+    
+    [request setHTTPMethod:@"POST"];
+    NSString *postString = [NSString stringWithFormat:@"email=%@&jabber_id=%@&user[device_identifier]=%@&_method=%@", cemail,cuser, uuidString,@"PUT"];
+    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request
+                                                                  delegate:dd];
+    
+    if (connection) {
+        // Create the NSMutableData to hold the received data.
+        // receivedData is an instance variable declared elsewhere.
+        dd.receivedData = [[NSMutableData data] retain];
+    } else {
+        // Inform the user that the connection failed.
+    }
+    
+    
+    
+    
+    
+    //    [bridge sendRegistered];
+    
+}
+
+
+and for Android use this
+
+"http://idlecampus.com/api/users"
+
+with params
+  Map<String, String> params = new HashMap<String, String>();
+  String device_identifier = settings.getString("device_identifier", "");
+	params.put("device_identifier", device_identifier);
+	params.put("jabber_id", name + "@idlecampus.com");
+	params.put("email", email);
+	params.put("name", name);
+	params.put("password", password);
+
+
+
+
 ## Contributing
 
 1. Fork it ( http://github.com/<my-github-username>/pushify/fork )
