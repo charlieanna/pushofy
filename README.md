@@ -23,57 +23,57 @@ Or install it yourself as:
 
 Copy the code below in your AppDelegate.m file and also upload your certificate on developer.idlecampus.com by creating an account if you don't want to use push notifications yourself.
 
-// Delegation methods
-- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
-    NSUserDefaults  *defaults = [NSUserDefaults standardUserDefaults];
-    NSString        *uuidString    = [defaults objectForKey: @"device_identifier"];
-    
-    if (!uuidString)
-    {
-        uuidString = (NSString *) CFUUIDCreateString (NULL, CFUUIDCreate(NULL));
-        [defaults setObject: uuidString forKey: @"device_identifier"];
-        [defaults synchronize]; // handle error
-    }
-    
-    NSString *deviceToken = [[devToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    deviceToken = [deviceToken stringByReplacingOccurrencesOfString:@" " withString:@""];
-   // self.registered = YES;
-   
-    
-    [self sendProviderDeviceToken:deviceToken device_identifier:uuidString]; // custom method
-}
-
-
--(void)sendProviderDeviceToken:(NSString *)registration_Id device_identifier:(NSString *)device_identifier {
-    NSURL *aUrl = [NSURL URLWithString:@"http://developer.idlecampus.com/devices"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aUrl
-                                                           cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                       timeoutInterval:60.0];
-    
-    
-    
-    [request setHTTPMethod:@"POST"];
-    NSString *postString = [NSString stringWithFormat:@"registration_id=%@&device_identifier=%@&device_type=IOS",registration_Id,device_identifier];
-   [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request
-                                                                 delegate:self];
-    
-}
+      // Delegation methods
+      - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+      NSUserDefaults  *defaults = [NSUserDefaults standardUserDefaults];
+      NSString        *uuidString    = [defaults objectForKey: @"device_identifier"];
+      
+      if (!uuidString)
+      {
+      uuidString = (NSString *) CFUUIDCreateString (NULL, CFUUIDCreate(NULL));
+      [defaults setObject: uuidString forKey: @"device_identifier"];
+      [defaults synchronize]; // handle error
+      }
+      
+      NSString *deviceToken = [[devToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+      deviceToken = [deviceToken stringByReplacingOccurrencesOfString:@" " withString:@""];
+      // self.registered = YES;
+      
+      
+      [self sendProviderDeviceToken:deviceToken device_identifier:uuidString]; // custom method
+      }
+      
+      
+      -(void)sendProviderDeviceToken:(NSString *)registration_Id device_identifier:(NSString *)device_identifier {
+      NSURL *aUrl = [NSURL URLWithString:@"http://developer.idlecampus.com/devices"];
+      NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aUrl
+                                                         cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                     timeoutInterval:60.0];
+      
+      
+      
+      [request setHTTPMethod:@"POST"];
+      NSString *postString = [NSString stringWithFormat:@"registration_id=%@&device_identifier=%@&device_type=IOS",registration_Id,device_identifier];
+      [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+      NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request
+                                                               delegate:self];
+      
+      }
 
 
 Android
 
 Use the code below to send your device id to developer.idlecampus.com. 
 
-  String serverUrl = "http://developer.idlecampus.com/devices";
-        Log.i("idlecampus",serverUrl);
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("registration_id", regId);
-        
-        String device_identifier = Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-
-        params.put("device_identifier",device_identifier);
-        params.put("device_type","Android");
+      String serverUrl = "http://developer.idlecampus.com/devices";
+      Log.i("idlecampus",serverUrl);
+      Map<String, String> params = new HashMap<String, String>();
+      params.put("registration_id", regId);
+              
+     String device_identifier = Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+      
+      params.put("device_identifier",device_identifier);
+      params.put("device_type","Android");
 
 
  You can use this method for sending data to any server using a hashmap.
