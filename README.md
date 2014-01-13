@@ -1,6 +1,6 @@
 # Pushify
 
-TODO: Write a gem description
+Use this gem for sending push to iOS devices and Android Devices just by uploading your certificate to developer.idlecampus.com and registering your users on it. If you want to use barebones then just install the gem through your gemfile.
 
 ## Installation
 
@@ -8,9 +8,11 @@ Add this line to your application's Gemfile:
 
     gem 'pushify'
 
+shify'
+
 And then execute:
 
-    $ bundle
+   > We loved with a love that was more than love $ bundle
 
 Or install it yourself as:
 
