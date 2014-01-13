@@ -158,36 +158,23 @@ Use the code below to send your device id to developer.idlecampus.com.
       [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
       NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request
                                                                     delegate:dd];
-      
-      if (connection) {
-          // Create the NSMutableData to hold the received data.
-          // receivedData is an instance variable declared elsewhere.
-          dd.receivedData = [[NSMutableData data] retain];
-      } else {
-          // Inform the user that the connection failed.
-      }
-      
-      
-      
-      
-      
-      //    [bridge sendRegistered];
-      
-  }
+    }
 
 
 and for Android use this
 
-"http://idlecampus.com/api/users"
+http://idlecampus.com/api/users
 
 with params
-      Map<String, String> params = new HashMap<String, String>();
-      String device_identifier = settings.getString("device_identifier", "");
-        params.put("device_identifier", device_identifier);
-        params.put("jabber_id", name + "@idlecampus.com");
-        params.put("email", email);
-        params.put("name", name);
-        params.put("password", password);
+
+
+          Map<String, String> params = new HashMap<String, String>();
+          String device_identifier = settings.getString("device_identifier", "");
+            params.put("device_identifier", device_identifier);
+            params.put("jabber_id", name + "@idlecampus.com");
+            params.put("email", email);
+            params.put("name", name);
+            params.put("password", password);
 
 
 
