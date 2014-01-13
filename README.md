@@ -12,7 +12,7 @@ shify'
 
 And then execute:
 
-   > We loved with a love that was more than love $ bundle
+   $ bundle
 
 Or install it yourself as:
 
