@@ -3,7 +3,7 @@
 This gem has support for both APNS(sending push notifications to iOS devices) and also GCM(sending push notifications to Android Devices). This gem was extracted out from the push notification server I built for IdleCampus. 
 
 The basic idea behind this gem is that each device has a unique device id. 
-So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to developer.idlecampus.com server and within your own app you save the user along with the device id.
+So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to http://developer.idlecampus.com server and within your own app you save the user along with the device id.
 
 For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as device_id:12345485459, device_type:Android and device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs.
 
@@ -29,7 +29,7 @@ where devices are all the unique ids you get from the database.
 
 You can also use the website http://developer.idlecampus.com to store your certificate for you in case of APNS and the register id in case of GCM. You only have to go and create an account for yourself.
 
-Use this gem for sending push to iOS devices and Android Devices just by uploading your certificate to developer.idlecampus.com and registering your devices for each user on it.
+Use this gem for sending push to iOS devices and Android Devices just by uploading your certificate to http://developer.idlecampus.com and registering your devices for each user on it.
 
 Below you will also find the iOS code and Android Code you can use in your mobile applications if you wish to leave handling the push notifications and the ceritfications to us. 
 
@@ -51,7 +51,7 @@ Or install it yourself as:
 
 ## Usage
 
-Copy the code below in your AppDelegate.m file and also upload your certificate on developer.idlecampus.com by creating an account if you don't want to use push notifications yourself.
+Copy the code below in your AppDelegate.m file and also upload your certificate on http://developer.idlecampus.com by creating an account if you don't want to use push notifications yourself.
 
 ### Apple
 ```
@@ -87,7 +87,7 @@ Copy the code below in your AppDelegate.m file and also upload your certificate 
 
 ### Android
 
-Use the code below to send your device id to developer.idlecampus.com. 
+Use the code below to send your device id to http://developer.idlecampus.com. 
 
       String serverUrl = "http://developer.idlecampus.com/devices";
       Log.i("idlecampus",serverUrl);
