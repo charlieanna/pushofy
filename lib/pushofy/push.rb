@@ -20,26 +20,28 @@ module Pushofy
     def send_push
       device = Device.find(@id)
       device_type = device.device_type
-      if device_type == 'IOS' && !device_type.nil?
+      if device_type == 'IOS'
         send_to_ios(device)
-      elsif device_type == 'Android' && !device_type.nil?
+      elsif device_type == 'Android'
         send_to_android(device)
       end
     end
 
     def send_to_ios(device)
 
-      payload_hash = {}
-      payload_hash['aps'] = {}
-      payload_hash['aps']['alert'] = {}
-      payload_hash['aps']['alert']['body'] = "You have a new #{@app} from #{@from}"
-      payload_hash['aps']['sound'] = 'default'
-      payload_hash['aps']['badge'] = 1
-      payload_hash['app'] = @app
-      payload_hash['url'] = @message
-      device_token_hex = device.registration_id
-      puts "AAAAAA"
-      puts payload_hash
+
+      payload_hash = {
+        aps: {
+          alert: {
+            body: "You have a new #{@app}, form #{@from}"
+          },
+          sound: 'default',
+          badge: 1,
+        },
+        app: @app,
+        url: @message
+      }
+
       ApplePush.new(payload_hash, device_token_hex).push
     end
 
