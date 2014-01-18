@@ -5,7 +5,10 @@ This gem has support for both APNS(sending push notifications to iOS devices) an
 The basic idea behind this gem is that each device has a unique device id. 
 So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to http://developer.idlecampus.com server and within your own app you save the user along with the device id.
 
-For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as device_id:12345485459, device_type:Android and device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs.
+For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as   
+```
+device_id:12345485459, device_type:Android,  device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs.
+```
 
 So when you want to send a notification to particular user, you only call something like 
 ```
