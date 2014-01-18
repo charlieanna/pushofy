@@ -3,17 +3,24 @@
 This gem has support for both APNS(sending push notifications to iOS devices) and also GCM(sending push notifications to Android Devices). This gem was extracted the push notification server I built for IdleCampus. 
 
 The basic idea behind this gem is that first you each device has a unique device id. So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to the developer.idlecampus.com server and within your own app you save the save along with the device id. For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as device_id:12345485459, device_type:Android and device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs. So when you want to send a notification to particular user, you only call something like 
-          uri = URI('http://developer.idlecampus.com/push/push1')
-          headers = { 'Content-Type' => 'application/json' }
-          http = Net::HTTP.new(uri.host, uri.port)
-          resp, _ = http.post(uri.path, hash.to_json, headers)
+```
+uri = URI('http://developer.idlecampus.com/push/push1')
+headers = { 'Content-Type' => 'application/json' }
+http = Net::HTTP.new(uri.host, uri.port)
+resp, _ = http.post(uri.path, hash.to_json, headers)
+```
           
-where hash is  entries_hash = {}
-    entries_hash['devices'] = devices
-    entries_hash['message'] = @message
-    entries_hash['app'] = @app
-    entries_hash['from'] = @from
-    timetable_hash['push'] = entries_hash 
+where hash is
+```ruby
+entries_hash = {}
+entries_hash['devices'] = devices
+entries_hash['message'] = @message
+entries_hash['app'] = @app
+entries_hash['from'] = @from
+timetable_hash['push'] = entries_hash 
+```
+    
+
     
 and devices are all the unique ids you get from the database.
 
@@ -44,8 +51,7 @@ Or install it yourself as:
 
 Copy the code below in your AppDelegate.m file and also upload your certificate on developer.idlecampus.com by creating an account if you don't want to use push notifications yourself.
 
-      // Delegation methods
-      - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+      - (void)application:(UIApplication *)app   didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
       NSUserDefaults  *defaults = [NSUserDefaults standardUserDefaults];
       NSString        *uuidString    = [defaults objectForKey: @"device_identifier"];
       
@@ -58,9 +64,6 @@ Copy the code below in your AppDelegate.m file and also upload your certificate 
       
       NSString *deviceToken = [[devToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
       deviceToken = [deviceToken stringByReplacingOccurrencesOfString:@" " withString:@""];
-      // self.registered = YES;
-      
-      
       [self sendProviderDeviceToken:deviceToken device_identifier:uuidString]; // custom method
       }
       
@@ -78,8 +81,7 @@ Copy the code below in your AppDelegate.m file and also upload your certificate 
       [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
       NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request
                                                                delegate:self];
-      
-      }
+                                                               }
 
 
 Android
@@ -188,15 +190,15 @@ http://idlecampus.com/api/users
 
 with params
 
-
-          Map<String, String> params = new HashMap<String, String>();
-          String device_identifier = settings.getString("device_identifier", "");
-            params.put("device_identifier", device_identifier);
-            params.put("jabber_id", name + "@idlecampus.com");
-            params.put("email", email);
-            params.put("name", name);
-            params.put("password", password);
-
+```java
+Map<String, String> params = new HashMap<String, String>();
+String device_identifier = settings.getString("device_identifier", "");
+params.put("device_identifier", device_identifier);
+params.put("jabber_id", name + "@idlecampus.com");
+params.put("email", email);
+params.put("name", name);
+params.put("password", password);
+```
 
 
 
