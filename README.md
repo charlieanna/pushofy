@@ -1,8 +1,13 @@
 # Pushify
 
-This gem has support for both APNS(sending push notifications to iOS devices) and also GCM(sending push notifications to Android Devices). This gem was extracted the push notification server I built for IdleCampus. 
+This gem has support for both APNS(sending push notifications to iOS devices) and also GCM(sending push notifications to Android Devices). This gem was extracted out from the push notification server I built for IdleCampus. 
 
-The basic idea behind this gem is that first you each device has a unique device id. So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to the developer.idlecampus.com server and within your own app you save the save along with the device id. For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as device_id:12345485459, device_type:Android and device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs. So when you want to send a notification to particular user, you only call something like 
+The basic idea behind this gem is that first each device has a unique device id. 
+So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to the developer.idlecampus.com server and within your own app you save the user along with the device id.
+
+For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as device_id:12345485459, device_type:Android and device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs.
+
+So when you want to send a notification to particular user, you only call something like 
 ```
 uri = URI('http://developer.idlecampus.com/push/push1')
 headers = { 'Content-Type' => 'application/json' }
@@ -20,9 +25,7 @@ entries_hash['from'] = @from
 timetable_hash['push'] = entries_hash 
 ```
     
-
-    
-and devices are all the unique ids you get from the database.
+where devices are all the unique ids you get from the database.
 
 You can also use the website to store your certificate for you in case of APNS and the register id in case of GCM. You only have to go and create an account for yourself.
 
@@ -48,43 +51,41 @@ Or install it yourself as:
 
 ## Usage
 
-
 Copy the code below in your AppDelegate.m file and also upload your certificate on developer.idlecampus.com by creating an account if you don't want to use push notifications yourself.
 
-      - (void)application:(UIApplication *)app   didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
-      NSUserDefaults  *defaults = [NSUserDefaults standardUserDefaults];
-      NSString        *uuidString    = [defaults objectForKey: @"device_identifier"];
-      
-      if (!uuidString)
-      {
-      uuidString = (NSString *) CFUUIDCreateString (NULL, CFUUIDCreate(NULL));
-      [defaults setObject: uuidString forKey: @"device_identifier"];
-      [defaults synchronize]; // handle error
-      }
-      
-      NSString *deviceToken = [[devToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-      deviceToken = [deviceToken stringByReplacingOccurrencesOfString:@" " withString:@""];
-      [self sendProviderDeviceToken:deviceToken device_identifier:uuidString]; // custom method
-      }
-      
-      
-      -(void)sendProviderDeviceToken:(NSString *)registration_Id device_identifier:(NSString *)device_identifier {
-      NSURL *aUrl = [NSURL URLWithString:@"http://developer.idlecampus.com/devices"];
-      NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aUrl
-                                                         cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                     timeoutInterval:60.0];
-      
-      
-      
-      [request setHTTPMethod:@"POST"];
-      NSString *postString = [NSString stringWithFormat:@"registration_id=%@&device_identifier=%@&device_type=IOS",registration_Id,device_identifier];
-      [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
-      NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request
-                                                               delegate:self];
-                                                               }
+### Apple
+```
+- (void)application:(UIApplication *)app   didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+    NSUserDefaults  *defaults = [NSUserDefaults standardUserDefaults];
+    NSString        *uuidString    = [defaults objectForKey: @"device_identifier"];
+    if (!uuidString)
+    {
+    uuidString = (NSString *) CFUUIDCreateString (NULL, CFUUIDCreate(NULL));
+    [defaults setObject: uuidString forKey: @"device_identifier"];
+    [defaults synchronize]; // handle error
+    }
+    NSString *deviceToken = [[devToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    deviceToken = [deviceToken stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [self sendProviderDeviceToken:deviceToken device_identifier:uuidString];
+}
+```
 
 
-Android
+```
+-(void)sendProviderDeviceToken:(NSString *)registration_Id device_identifier:(NSString *)device_identifier {
+    NSURL *aUrl = [NSURL URLWithString:@"http://developer.idlecampus.com/devices"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aUrl
+    cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
+    [request setHTTPMethod:@"POST"];
+    NSString *postString = [NSString stringWithFormat:@"registration_id=%@&device_identifier=%@&device_type=IOS",registration_Id,device_identifier];
+    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request
+    delegate:self];
+}
+                                                               ```
+
+
+### Android
 
 Use the code below to send your device id to developer.idlecampus.com. 
 
@@ -151,6 +152,8 @@ Use the code below to send your device id to developer.idlecampus.com.
 
 
  but if you want to design an app to send a push to user then register users along with their device ids
+ 
+### Apple
 
      NSString *cuser = [NSString stringWithCString:user.c_str()
                                            encoding:[NSString defaultCStringEncoding]];
@@ -183,12 +186,9 @@ Use the code below to send your device id to developer.idlecampus.com.
                                                                     delegate:dd];
     }
 
+### Android
 
-and for Android use this
-
-http://idlecampus.com/api/users
-
-with params
+with params and url as http://idlecampus.com/api/users
 
 ```java
 Map<String, String> params = new HashMap<String, String>();
@@ -199,8 +199,6 @@ params.put("email", email);
 params.put("name", name);
 params.put("password", password);
 ```
-
-
 
 ## Contributing
 
