@@ -2,8 +2,8 @@
 
 This gem has support for both APNS(sending push notifications to iOS devices) and also GCM(sending push notifications to Android Devices). This gem was extracted out from the push notification server I built for IdleCampus. 
 
-The basic idea behind this gem is that first each device has a unique device id. 
-So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to the developer.idlecampus.com server and within your own app you save the user along with the device id.
+The basic idea behind this gem is that each device has a unique device id. 
+So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to developer.idlecampus.com server and within your own app you save the user along with the device id.
 
 For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as device_id:12345485459, device_type:Android and device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs.
 
@@ -27,9 +27,9 @@ timetable_hash['push'] = entries_hash
     
 where devices are all the unique ids you get from the database.
 
-You can also use the website to store your certificate for you in case of APNS and the register id in case of GCM. You only have to go and create an account for yourself.
+You can also use the website http://developer.idlecampus.com to store your certificate for you in case of APNS and the register id in case of GCM. You only have to go and create an account for yourself.
 
-Use this gem for sending push to iOS devices and Android Devices just by uploading your certificate to developer.idlecampus.com and registering your users on it.
+Use this gem for sending push to iOS devices and Android Devices just by uploading your certificate to developer.idlecampus.com and registering your devices for each user on it.
 
 Below you will also find the iOS code and Android Code you can use in your mobile applications if you wish to leave handling the push notifications and the ceritfications to us. 
 
@@ -122,7 +122,6 @@ Use the code below to send your device id to developer.idlecampus.com.
                 }
             }
             String body = bodyBuilder.toString();
-            Log.i("idlecampus", "Posting '" + body + "' to " + url);
             byte[] bytes = body.getBytes();
             HttpURLConnection conn = null;
             try {
@@ -156,35 +155,22 @@ Use the code below to send your device id to developer.idlecampus.com.
 ### Apple
 
      NSString *cuser = [NSString stringWithCString:user.c_str()
-                                           encoding:[NSString defaultCStringEncoding]];
+                           encoding:[NSString defaultCStringEncoding]];
       NSString *cemail =  [NSString stringWithCString:email.c_str()
-                                             encoding:[NSString defaultCStringEncoding]];
-      
+                           encoding:[NSString defaultCStringEncoding]];
       NSString *urlString = [NSString stringWithFormat:@"http://idlecampus.com/users/%@",cuser];
-      NSURL *aUrl = [NSURL URLWithString:urlString];  //http://10.124.7.63:3000/users
-     
-      
-      
-      //The user has been registered here. and his details are now sent to the server for storage.
+      NSURL *aUrl = [NSURL URLWithString:urlString];
       HTTPDelegate *dd = [[HTTPDelegate alloc] init];
-      
-      
-      
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
       NSString *uuidString = [defaults objectForKey:@"device_identifier"];
-      cout << uuidString;
-      
       NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aUrl
-                                                             cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                         timeoutInterval:60.0];
-      
-      
+cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
       [request setHTTPMethod:@"POST"];
       NSString *postString = [NSString stringWithFormat:@"email=%@&jabber_id=%@&user[device_identifier]=%@&_method=%@", cemail,cuser, uuidString,@"PUT"];
       [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
       NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request
                                                                     delegate:dd];
-    }
+                                                                    }
 
 ### Android
 
