@@ -82,7 +82,7 @@ Copy the code below in your AppDelegate.m file and also upload your certificate 
     NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request
     delegate:self];
 }
-                                                               ```
+```
 
 
 ### Android
