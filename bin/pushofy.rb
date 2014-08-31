@@ -1,6 +1,7 @@
+require_relative "../lib/pushofy/push_message"
 require_relative "../lib/pushofy/applepush"
 require_relative "../lib/pushofy/androidpush"
-require_relative "../lib/pushofy/push"
+
 require "active_support/core_ext"
 
 # puts "Enter the message you want to send >"
