@@ -1,4 +1,3 @@
-require "pushofy/version"
 require 'rubygems'
 require 'socket'
 require_relative 'applepayload'

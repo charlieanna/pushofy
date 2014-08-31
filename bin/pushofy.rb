@@ -11,7 +11,7 @@ require "active_support/core_ext"
 # choice = gets.to_i
 
 # if choice == 1
-# 	puts "Enter the device token of the iOS device:" 
+# 	puts "Enter the device token of the iOS device:"
 #   device_token = gets.chomp
 #   puts "Enter the certificate name >"
 #   cert_name = gets.chomp
@@ -64,7 +64,7 @@ payload_hash['url'] = "dsfdfdsf"
 payload_hash['device'] = "A078F1658F68521A278D0F5C41B9C4B0613E4A6DDC157FD8ED1567CDA5634DA4"
 # puts payload_hash
 settings = {
-		cert: '/Users/apple/Documents/workspace/pushofy/DevCert.pem',
+		cert: '/Users/pradeepkothari/Documents/workspace/pushofy/DevCert.pem',
 		password: "akk322",
 		host: 'gateway.sandbox.push.apple.com',
 		port: 2195
