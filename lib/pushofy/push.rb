@@ -4,9 +4,7 @@ require_relative 'applepayload'
 require_relative 'ssl_helper'
 require 'openssl'
 module Pushofy
-  #
   class Push
-
     def initialize(args = {})
       @id = args[:id]
       @message = args[:message]

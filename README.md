@@ -1,23 +1,23 @@
 # Pushify
 
-This gem has support for both APNS(sending push notifications to iOS devices) and also GCM(sending push notifications to Android Devices). This gem was extracted out from the push notification server I built for IdleCampus. 
+This gem has support for both APNS(sending push notifications to iOS devices) and also GCM(sending push notifications to Android Devices). This gem was extracted out from the push notification server I built for IdleCampus.
 
-The basic idea behind this gem is that each device has a unique device id. 
+The basic idea behind this gem is that each device has a unique device id.
 So when the user starts his app, you send the device id along with the device type and the device token(APNS) or Registeration id(GCM) to http://developer.idlecampus.com server and within your own app you save the user along with the device id.
 
-For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as   
+For example Ankur is saved to the application server database with a device id 12345485459 and in the push notification server his details get saved as
 ```
 device_id:12345485459, device_type:Android,  device_token:sdhbfdsfbdjkbkjfbdksljbfdskjbfs.
 ```
 
-So when you want to send a notification to particular user, you only call something like 
+So when you want to send a notification to particular user, you only call something like
 ```
 uri = URI('http://developer.idlecampus.com/push/push1')
 headers = { 'Content-Type' => 'application/json' }
 http = Net::HTTP.new(uri.host, uri.port)
 resp, _ = http.post(uri.path, hash.to_json, headers)
 ```
-          
+
 where hash is
 ```ruby
 entries_hash = {}
@@ -25,16 +25,16 @@ entries_hash['devices'] = devices
 entries_hash['message'] = @message
 entries_hash['app'] = @app
 entries_hash['from'] = @from
-timetable_hash['push'] = entries_hash 
+timetable_hash['push'] = entries_hash
 ```
-    
+
 where devices are all the unique ids you get from the database.
 
 You can also use the website http://developer.idlecampus.com to store your certificate for you in case of APNS and the register id in case of GCM. You only have to go and create an account for yourself.
 
 Use this gem for sending push to iOS devices and Android Devices just by uploading your certificate to http://developer.idlecampus.com and registering your devices for each user on it.
 
-Below you will also find the iOS code and Android Code you can use in your mobile applications if you wish to leave handling the push notifications and the ceritfications to us. 
+Below you will also find the iOS code and Android Code you can use in your mobile applications if you wish to leave handling the push notifications and the ceritfications to us.
 
 Feel free to fork the code to contribute to the project as shown at the bottom of this file.
 
@@ -90,15 +90,15 @@ Copy the code below in your AppDelegate.m file and also upload your certificate 
 
 ### Android
 
-Use the code below to send your device id to http://developer.idlecampus.com. 
+Use the code below to send your device id to http://developer.idlecampus.com.
 
       String serverUrl = "http://developer.idlecampus.com/devices";
       Log.i("idlecampus",serverUrl);
       Map<String, String> params = new HashMap<String, String>();
       params.put("registration_id", regId);
-              
+
      String device_identifier = Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-      
+
       params.put("device_identifier",device_identifier);
       params.put("device_type","Android");
 
@@ -154,7 +154,7 @@ Use the code below to send your device id to http://developer.idlecampus.com.
 
 
  but if you want to design an app to send a push to user then register users along with their device ids
- 
+
 ### Apple
 
      NSString *cuser = [NSString stringWithCString:user.c_str()
